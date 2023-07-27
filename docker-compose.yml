@@ -5,7 +5,7 @@ services:
     ports:
      - "8080:80"
     environment:
-      API_DOMAIN: hatch-api-1:3000
+      API_DOMAIN: http://localhost:3000
     depends_on:
       - api
   api:
