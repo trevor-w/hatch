@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: API for Hatch Task
+  description: An api to manage the tasks
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /tasks:
+    get:
+      summary: List all tasks
+      operationId: listTasks
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: An array of tasks
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create task
+      operationId: createTask
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: An array of tasks
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/Task'
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete All Tasks
+      operationId: deleteAllTask
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/BasicServerPayload"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tasks/{id}:
+    patch:
+      summary: Update task status
+      operationId: updateTaskStatus
+      parameters:
+        - in: path
+          name: id 
+          required: true
+          schema:
+            type: string
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: An array of tasks
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/BasicServerPayload"
+        '500':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - title
+      properties:
+        id:
+          type: string
+          description: unique task id
+        title:
+          type: string
+          description: task title
+        createdAt:
+          type: integer
+          format: int64
+          description: timestamp
+    BasicServerPayload:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          description: current server timestamp
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
